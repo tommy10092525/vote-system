@@ -71,8 +71,8 @@ const VoteButton = (props: Props) => {
                 method: "POST",
                 body: JSON.stringify({
                   num: num,
-                  answer: false,
-                  change:1
+                  answer: true,
+                  change:-1
                 }), headers: {
                   'Content-type': 'application/json; charset=UTF-8'
                 }
@@ -82,8 +82,8 @@ const VoteButton = (props: Props) => {
               method: "POST",
               body: JSON.stringify({
                 num: num,
-                answer: true,
-                change:-1
+                answer: false,
+                change:1
               }), headers: {
                 'Content-type': 'application/json; charset=UTF-8'
               }
