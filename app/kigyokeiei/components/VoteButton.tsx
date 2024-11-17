@@ -72,7 +72,7 @@ const VoteButton = (props: Props) => {
                 body: JSON.stringify({
                   num: num,
                   answer: false,
-                  change:-1
+                  change:1
                 }), headers: {
                   'Content-type': 'application/json; charset=UTF-8'
                 }
@@ -83,7 +83,7 @@ const VoteButton = (props: Props) => {
               body: JSON.stringify({
                 num: num,
                 answer: true,
-                change:1
+                change:-1
               }), headers: {
                 'Content-type': 'application/json; charset=UTF-8'
               }
