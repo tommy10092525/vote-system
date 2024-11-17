@@ -30,9 +30,8 @@ const VoteButton = (props: Props) => {
       <button
         className={`bg-blue-500 shadow m-1 p-1 rounded-md text-black ${(isVoted && myAnswer) ? "border-2 border-black" : ""}`}
         onClick={function () {
-          setIsLoading(true);
-          console.log(isLoading)
           if (!isVoted || !myAnswer) {
+            setIsLoading(true);
             if(isVoted){
               fetch(url, {
                 method: "POST",
@@ -65,8 +64,8 @@ const VoteButton = (props: Props) => {
       <button
         className={`bg-orange-400 shadow m-1 p-1 rounded-md text-black ${isVoted && !myAnswer ? "border-2 border-black":""}`}
         onClick={function(){
-          setIsLoading(true)
           if (!isVoted || myAnswer) {
+            setIsLoading(true)
             if(isVoted){
               fetch(url, {
                 method: "POST",
