@@ -8,6 +8,7 @@ const VoteButton = (props: Props) => {
   const { num, votes, handleVotes } = props;
   const [isVoted, setIsVoted] = useState<boolean>(false);
   const [myAnswer, setMyAnswer] = useState<boolean>(false);
+  const [isLoading,setIsLoading]=useState<boolean>(false);
 
   useEffect(function () {
     let f = false;
@@ -25,10 +26,12 @@ const VoteButton = (props: Props) => {
   return (
 
     <div className={`my-2 pl-2 ${isVoted ? "border-red-500" : "border-blue-500"} border-l-4`}>
-      <p>問{String(num)}</p>
+      <p>{`問${String(num)}${isLoading ? " 送信中..." : ""}`}</p>
       <button
         className={`bg-blue-500 shadow m-1 p-1 rounded-md text-black ${(isVoted && myAnswer) ? "border-2 border-black" : ""}`}
         onClick={function () {
+          setIsLoading(true);
+          console.log(isLoading)
           if (!isVoted || !myAnswer) {
             if(isVoted){
               fetch(url, {
@@ -53,13 +56,16 @@ const VoteButton = (props: Props) => {
               }
             }).then(function () {
               handleVotes({ num: num, answer: true,})
+            }).finally(function(){
+              setIsLoading(false)
             })
 
           }
         }}>{isVoted && myAnswer ? "「正しい」に投票済み" : "「正しい」に投票する"}</button>
       <button
         className={`bg-orange-400 shadow m-1 p-1 rounded-md text-black ${isVoted && !myAnswer ? "border-2 border-black":""}`}
-        onClick={() => {
+        onClick={function(){
+          setIsLoading(true)
           if (!isVoted || myAnswer) {
             if(isVoted){
               fetch(url, {
@@ -84,6 +90,8 @@ const VoteButton = (props: Props) => {
               }
             }).then(function () {
               handleVotes({ num: num, answer: false ,});
+            }).finally(function(){
+              setIsLoading(false)
             })
           }
         }}>{isVoted && !myAnswer ? "「誤り」に投票済み" : "「誤り」に投票する"}</button>

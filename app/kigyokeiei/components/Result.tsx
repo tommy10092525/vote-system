@@ -4,9 +4,9 @@ type Props={num:number,trueCount:number,falseCount:number}
 
 export default function ResultShow(props:Props) {
   let {num,trueCount,falseCount}=props;
-  const d=Math.min(trueCount,falseCount,0);
-  trueCount+=d
-  falseCount+=d
+  const d=Math.min(...[trueCount,falseCount,0]);
+  trueCount+=Math.abs(d)
+  falseCount+=Math.abs(d)
   return (
     <div>
       <p>{`問${num}`}</p>
