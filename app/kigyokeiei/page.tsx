@@ -101,18 +101,18 @@ export default function () {
       <div className='float-left w-1/2'>
         {e.map(item => item)}
       </div>
-      <div className='float-left w-1/2'>
-        <p className='text-xl'>投票結果</p>
-        {!isLoading ? <>
-          {resultElement.map(item => item)}
-        </> : <>Loading...</>}
-      </div>
       <button
         className='border-2 bg-red-600 shadow-lg border-black rounded-md text-black'
         onClick={() => {
           setVotes([]);
           window.location.reload()
         }}>キャッシュを削除する</button>
+      <div className='float-left w-1/2'>
+        <p className='text-xl'>投票結果</p>
+        {!isLoading ? <>
+          {resultElement.map(item => item)}
+        </> : <>Loading...</>}
+      </div>
     </div>
   )
 }
