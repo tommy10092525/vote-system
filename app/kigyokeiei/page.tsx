@@ -32,7 +32,7 @@ export default function () {
     localStorage.setItem("votes", JSON.stringify(votes));
   }, [votes])
   const url = "/kigyokeiei/api/get"
-  const { data, error, isLoading } = useSWR(url, fetcher);
+  const { data, error, isLoading } = useSWR(url, fetcher,{refreshInterval:5000});
   let results: Result = [];
   let resultElement = [];
   if (!isLoading && !!data) {
