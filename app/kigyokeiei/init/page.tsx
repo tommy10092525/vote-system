@@ -2,7 +2,7 @@
 import React from 'react'
 
 export default function(){
-  if(!!localStorage) localStorage.clear();
+  if(typeof window !=="undefined") localStorage.clear();
   return (
     <div>
       
