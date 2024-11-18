@@ -8,8 +8,8 @@ export default function ResultShow(props:Props) {
   trueCount+=Math.abs(d)
   falseCount+=Math.abs(d)
   return (
-    <div>
-      <p>{`問${num}`}</p>
+    <div className='bg-green-200 shadow my-1 p-2 rounded-xl w-44 text-black'>
+      <p className='text-xl'>{`問${num}`}</p>
       <p>{`「正しい」:${trueCount}/「誤り」:${falseCount}`}</p>
       {
         trueCount +falseCount !== 0

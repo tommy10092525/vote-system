@@ -25,10 +25,10 @@ const VoteButton = (props: Props) => {
 
   return (
 
-    <div className={`my-2 pl-2 ${isVoted ? "border-green-400" : "border-blue-500"} border-l-4`}>
+    <div className={`my-2 pl-2 ${isVoted ? "" : "border-blue-500 border-l-4"}`}>
       <p>{`問${String(num)}${isLoading ? " 送信中..." : ""}`}</p>
       <button
-        className={`shadow m-1 p-1 rounded-md text-black ${(isVoted && myAnswer) ? "bg-blue-500" : "bg-blue-300"}`}
+        className={`shadow m-1 p-1 rounded-xl text-black ${(isVoted && myAnswer) ? "bg-blue-700" : "bg-blue-200"}`}
         onClick={function () {
           if (!isVoted || !myAnswer) {
             setIsLoading(true);
@@ -62,7 +62,7 @@ const VoteButton = (props: Props) => {
           }
         }}>{isVoted && myAnswer ? "「正しい」に投票済み" : "「正しい」に投票する"}</button>
       <button
-        className={`shadow m-1 p-1 rounded-md text-black ${isVoted && !myAnswer ? "bg-pink-500":"bg-pink-300"}`}
+        className={`shadow m-1 p-1 rounded-xl text-black ${isVoted && !myAnswer ? "bg-pink-500":"bg-pink-300"}`}
         onClick={function(){
           if (!isVoted || myAnswer) {
             setIsLoading(true)

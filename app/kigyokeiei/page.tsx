@@ -79,7 +79,7 @@ export default function () {
       votes={votes}
       key={i}
       handleVotes={function (vote: MyVote) {
-        let nextVotes = JSON.parse(JSON.stringify(votes));
+                let nextVotes = JSON.parse(JSON.stringify(votes));
         let f = true;
         for (let item of nextVotes) {
           if (vote.num === item.num) {
@@ -96,17 +96,17 @@ export default function () {
     )
   }
   return (
-    <div className='p-3 w-full'>
+    <div className='float-left bg-gray-900 p-3 w-full text-white'>
       <p>企業経営入門投票システム</p>
       <div className='float-left w-1/2'>
         {e.map(item => item)}
       </div>
-      <button
+      {/* <button
         className='border-2 bg-red-600 shadow-lg border-black rounded-md text-black'
         onClick={() => {
           setVotes([]);
           window.location.reload()
-        }}>キャッシュを削除する</button>
+        }}>キャッシュを削除する</button> */}
       <div className='float-left w-1/2'>
         <p className='text-xl'>投票結果</p>
         {!isLoading ? <>
