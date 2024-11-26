@@ -5,13 +5,11 @@ import VoteButton from './components/VoteButton'
 import useSWR from "swr"
 import ResultShow from './components/Result'
 
-type Response = { num: number, answer: boolean, sum: number }[]
+type ResponseType = { num: number, answer: boolean, sum: number }[]
 type Result = { num: number, trueCount: number, falseCount: number }[]
 type MyVote = { num: number, answer: boolean }
 
-const fetcher = async (url: string) => {
-  return fetch(url).then((res) => res.json() as Promise<Response | null>);
-}
+
 
 export default function () {
 
@@ -32,5 +30,4 @@ export default function () {
   )
 }
 
-export type { ResultShow as Result, MyVote }
-export { fetcher }
+export type { ResponseType, MyVote }

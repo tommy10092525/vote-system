@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { fetcher, MyVote, } from '../page';
+import {MyVote,ResponseType} from '../page';
 import useSWR from 'swr';
-import { tree } from 'next/dist/build/templates/app-page';
 
 type Props = { num: number
 }
 // 各コンポーネントでstateを保持する
 const getUrl = "kigyokeiei/api/get"
 const postUrl = "kigyokeiei/api/post"
+
+const fetcher = async (url: string) => {
+  return fetch(url).then((res) => res.json() as Promise<ResponseType | null>);
+}
 
 const VoteButton = (props: Props) => {
 
