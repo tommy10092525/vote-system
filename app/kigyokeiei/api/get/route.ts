@@ -7,6 +7,6 @@ export async function GET() {
     num,
     answer,
     change.sum()`)
-  
+  console.log(data?.sort((a,b)=>a.num-b.num))
   return NextResponse.json(data)
 }
