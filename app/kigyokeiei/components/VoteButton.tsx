@@ -18,7 +18,7 @@ const VoteButton = (props: Props) => {
   const [isPosting, setIsPosting] = useState<boolean>(false);
   const [myAnswer, setMyAnswer] = useState<boolean>(false);
   const [count,setCount]=useState<{trueCount:number,falseCount:number}>({trueCount:0,falseCount:0})
-  const { isLoading: isLoadingGet, data: votesGet } = useSWR(getUrl, fetcher)
+  const { isLoading: isLoadingGet, data: votesGet } = useSWR(getUrl, fetcher,{refreshInterval:1000})
 
   useEffect(()=>{
     //マウント時にlocalStorageから投票データを復元する
