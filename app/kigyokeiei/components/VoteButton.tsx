@@ -68,7 +68,7 @@ const VoteButton = (props: Props) => {
       <p>{`問${String(props.num)}${isPosting ? " 送信中..." : ""}`}</p>
       <div className='w-1/2 float-left p-1'>
         <button
-          className={`w-full shadow m-1 p-1 rounded-xl float-left text-black ${(isVoted && myAnswer) ? "bg-blue-700" : "bg-blue-200"}`}
+          className={`w-full shadow p-1 rounded-md float-left text-black ${(isVoted && myAnswer) ? "bg-blue-700" : "bg-blue-200"}`}
           onClick={()=>{
             if (!isVoted || !myAnswer) {
               // 投票済みでないか、自分の投票が「誤り」である場合は投票する
@@ -116,7 +116,7 @@ const VoteButton = (props: Props) => {
       </div>
       <div className='w-1/2 float-left p-1'>
         <button
-          className={`w-full shadow m-1 p-1 rounded-xl float-left text-black ${isVoted && !myAnswer ? "bg-pink-500" : "bg-pink-300"}`}
+          className={`w-full shadow p-1 rounded-md float-left text-black ${isVoted && !myAnswer ? "bg-pink-500" : "bg-pink-300"}`}
         onClick={function () {
           if (!isVoted || myAnswer) {
             // 投票済みでないか、自分の投票が「正しい」である場合は投票する
@@ -163,7 +163,7 @@ const VoteButton = (props: Props) => {
         }}>{isVoted && !myAnswer ? "「誤り」に投票済み" : "「誤り」に投票する"}</button>
       </div>
       <div className='w-full p-1'>
-        <div className="float-left w-full bg-green-300 shadow my-1 p-2 rounded-xl text-black">
+        <div className="float-left w-full bg-green-300 shadow my-1 p-2 rounded-md text-black">
           <p>{`「正しい」:${count.trueCount}/「誤り」:${count.falseCount}`}</p>
         {
           count.trueCount + count.falseCount !== 0
