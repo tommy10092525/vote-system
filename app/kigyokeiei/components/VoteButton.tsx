@@ -17,7 +17,7 @@ const VoteButton = (props: Props) => {
   const [isVoted, setIsVoted] = useState<boolean>(false);
   const [isPosting, setIsPosting] = useState<boolean>(false);
   const [myAnswer, setMyAnswer] = useState<boolean>(false);
-  const [count,setCount]=useState<{trueCount:number,falseCount:number}>({trueCount:0,falseCount:0})
+  // const [count,setCount]=useState<{trueCount:number,falseCount:number}>({trueCount:0,falseCount:0})
   const { isLoading: isLoadingGet, data: votesGet } = useSWR(getUrl, fetcher,{refreshInterval:1000})
 
   useEffect(()=>{
@@ -50,16 +50,28 @@ const VoteButton = (props: Props) => {
   },[myAnswer])
 
 
-  useEffect(() => {
-    if (votesGet) {
-      const trueVotes = votesGet.filter(i => i.answer && i.num === props.num).length;
-      const falseVotes = votesGet.filter(i => !i.answer && i.num === props.num).length;
-      setCount({
-        trueCount: trueVotes + Math.abs(Math.min(trueVotes, falseVotes, 0)),
-      falseCount: falseVotes + Math.abs(Math.min(trueVotes, falseVotes, 0))
-    })
+
+  let count={trueCount:0,falseCount:0}
+  if(!!votesGet){
+    let trueVotes=0;
+    for(let i=0;i<votesGet.length;i++){
+      if(votesGet[i].num===props.num&&votesGet[i].answer){
+        trueVotes=votesGet[i].sum;
+        break;
+      }
+    }
+    let falseVotes=0;
+    for(let i=0;i<votesGet.length;i++){
+      if(votesGet[i].num===props.num&&!votesGet[i].answer){
+        falseVotes=votesGet[i].sum;
+        break;
+      }
+    }
+    let d=Math.min(...[trueVotes,falseVotes,0]);
+    trueVotes+=Math.abs(d)
+    falseVotes+=Math.abs(d)
+    count={trueCount:trueVotes,falseCount:falseVotes}
   }
-  }, [votesGet, props.num])
 
   return (
 
@@ -85,10 +97,6 @@ const VoteButton = (props: Props) => {
                     'Content-type': 'application/json; charset=UTF-8'
                   }
                 }).then(()=>{
-                  setCount(prev=>({
-                    trueCount: prev.trueCount,
-                    falseCount: prev.falseCount-1
-                  }))
                 })
               }
               // 投票する
@@ -103,10 +111,6 @@ const VoteButton = (props: Props) => {
                 }
               }).then(function () {
                 setMyAnswer(true)
-                setCount(prev=>({
-                  trueCount: prev.trueCount + 1,
-                  falseCount: prev.falseCount
-                }))
               }).finally(function () {
                 setIsPosting(false)
               })
@@ -133,10 +137,6 @@ const VoteButton = (props: Props) => {
                   'Content-type': 'application/json; charset=UTF-8'
                 }
               }).then(()=>{
-                setCount(prev=>({ 
-                  trueCount: prev.trueCount - 1,
-                  falseCount: prev.falseCount
-                }))
               })
             }
             // 投票する
@@ -151,10 +151,6 @@ const VoteButton = (props: Props) => {
               }
             }).then(function () {
               setMyAnswer(false)
-              setCount(prev=>({
-                trueCount: prev.trueCount,
-                falseCount: prev.falseCount + 1
-              }))
             }).finally(function () {
               setIsPosting(false)
             })
