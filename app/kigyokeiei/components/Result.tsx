@@ -1,9 +1,12 @@
 import React from 'react'
+import { PublicVote } from '../page'
 
-type Props={num:number,trueCount:number,falseCount:number}
+type Props={num:number,publicAnswers:PublicVote[]}
 
 export default function ResultShow(props:Props) {
-  let {num,trueCount,falseCount}=props;
+  let {num,publicAnswers}=props;
+  let trueCount=publicAnswers.find((item)=>item.num===num&&item.answer==="correct")!.count;
+  let falseCount=publicAnswers.find((item)=>item.num===num&&item.answer==="incorrect")!.count;
   const d=Math.min(...[trueCount,falseCount,0]);
   trueCount+=Math.abs(d)
   falseCount+=Math.abs(d)
