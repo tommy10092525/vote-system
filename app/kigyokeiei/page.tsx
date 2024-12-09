@@ -82,7 +82,7 @@ export default function () {
 
 
   return (
-    <div className='bg-gray-900 p-3 w-full text-white'>
+    <div className=' p-3 w-full text-black'>
       <div className='max-w-xl mx-auto'>
         <p className='text-2xl'>企業経営入門投票システム</p>
         <div className="">
@@ -104,7 +104,7 @@ export default function () {
         </div>
       </div>
 
-      <p>{JSON.stringify({ publicAnswers: publicAnswers, myAnswers: myAnswers }, null, 2)}</p>
+      {/* <p>{JSON.stringify({ publicAnswers: publicAnswers, myAnswers: myAnswers }, null, 2)}</p> */}
     </div>
   )
 }
