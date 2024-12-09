@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { MyVote } from "../../page";
+import { Vote } from "../../page";
 import { supabase } from "@/utils/supabase/supabaseClient";
 
-type Post=MyVote&{change:number}
+type Post=Vote&{change:number}
 
 export async function POST(request: Request) {
   
