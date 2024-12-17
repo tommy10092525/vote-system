@@ -19,7 +19,7 @@ const VoteButton = (props: Props) => {
       <p className='text-2xl'>{`問${String(props.num)}${isPosting ? " 送信中..." : ""}`}</p>
       <div className='w-full p-1'>
         <button
-          className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="correct" ? "bg-blue-700" : "bg-blue-200"}`}
+          className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="correct" ? "bg-green-500" : "bg-green-200"}`}
           onClick={async () => {
             console.log("correct")
             if (!isPosting && (myAnswer === "none" || myAnswer === "incorrect")) {
@@ -39,7 +39,7 @@ const VoteButton = (props: Props) => {
       </div>
       <div className='w-full p-1'>
         <button
-          className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="incorrect" ? "bg-pink-700" : "bg-pink-200"}`}
+          className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="incorrect" ? "bg-red-400" : "bg-red-200"}`}
           onClick={async () => {
             console.log("incorrect")
             if (!isPosting && (myAnswer === "none" || myAnswer === "correct")) {
