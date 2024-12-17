@@ -31,7 +31,7 @@ export default function () {
     }));
     return initialArray;
   });
-
+  const [latestAnswer, setLatestAnswer] = useState<string>("");
   const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
   useEffect(() => {
@@ -82,18 +82,20 @@ export default function () {
 
 
   return (
-    <div className=' p-3 w-full text-black'>
+    <div className=' p-3 w-full bg-slate-100'>
       <div className='max-w-xl mx-auto'>
         <p className='text-2xl'>企業経営入門投票システム</p>
         <div className="">
           {myAnswers.map((item, index) => {
-            return <div key={index}>
-              <VoteButton
-                num={index + 1}
-                myAnswers={myAnswers}
-                publicAnswers={publicAnswers}
-                handleMyAnswerChange={handleMyAnswerChange}
-              />
+            return <div key={index} className='bg-white p-3 rounded-lg my-3 shadow-md'>
+              <div className='bg-gray-100 p-3 rounded-lg shadow-md'>
+                <VoteButton
+                  num={index + 1}
+                  myAnswers={myAnswers}
+                  publicAnswers={publicAnswers}
+                  handleMyAnswerChange={handleMyAnswerChange}
+                />
+              </div>
               <ResultShow
                 num={index + 1}
                 publicAnswers={publicAnswers}
@@ -103,8 +105,7 @@ export default function () {
 
         </div>
       </div>
-
-      {/* <p>{JSON.stringify({ publicAnswers: publicAnswers, myAnswers: myAnswers }, null, 2)}</p> */}
+        
     </div>
   )
 }
