@@ -6,10 +6,14 @@ import useSWR from "swr"
 import ResultShow from './components/Result'
 import { createBrowserClient } from '@supabase/ssr'
 import { supabase } from '@/utils/supabase/supabaseClient'
+import { toast } from 'sonner'
+import {Button} from '@/components/ui/button'
 type ResponseType = { num: number, answer: boolean, sum: number }[]
 type Vote = { num: number, answer: "correct" | "incorrect" | "none" }
 type PublicVote = { num: number, answer: "correct" | "incorrect" | "none", count: number }
 
+const start=new Date("2025-01-27T11:00:00Z")
+const end=new Date("2025-01-27T11:30:00Z")
 
 export default function () {
   const [publicAnswers, setPublicAnswers] = useState<PublicVote[]>(() => {
@@ -23,6 +27,10 @@ export default function () {
     }
     return initialArray;
   });
+
+  const [now,setNow]=useState(new Date())
+
+
 
   const [myAnswers, setMyAnswers] = useState<Vote[]>(() => {
     const initialArray = Array(10).fill(null).map((_, i) => ({
@@ -57,6 +65,7 @@ export default function () {
         return next
       })
     })
+    
     channel.subscribe()
     supabase.from("result").select("*").then((res) => {
       let nextPublicVotes: PublicVote[] = []
@@ -71,6 +80,10 @@ export default function () {
       })
       setPublicAnswers(nextPublicVotes)
     })
+
+    setInterval(() => {
+      setNow(new Date())
+    }, 1000)
 
   }, [])
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
@@ -94,6 +107,8 @@ export default function () {
     <div className=' p-3 w-full bg-slate-100'>
       <div className='max-w-xl mx-auto'>
         <p className='text-2xl'>企業経営入門投票システム</p>
+        <p>現在時刻:{now.toLocaleString()}</p>
+        <p>{end<now?"テスト終了済み":(start>now?`テスト開始まであと${Math.floor((start.getTime()-now.getTime())/86400000)}日${Math.floor((start.getTime()-now.getTime())/3600000)%24}時間${Math.floor((start.getTime()-now.getTime())/60000)%60}分${Math.floor((start.getTime()-now.getTime())/1000)%60}秒`:`テスト終了まであと${Math.floor((now.getTime()-end.getTime())/86400000)}日${Math.floor((now.getTime()-end.getTime())/3600000)%24}時間${Math.floor((now.getTime()-end.getTime())/60000)%60}分${Math.floor((now.getTime()-end.getTime())/1000)%60}秒`)}</p>
         <div className="">
           {myAnswers.map((item, index) => {
             return <div key={index} className='bg-white p-3 rounded-lg my-3 shadow-md'>
@@ -120,3 +135,4 @@ export default function () {
 }
 
 export type { ResponseType, PublicVote, Vote }
+export {start,end}
