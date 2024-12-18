@@ -112,8 +112,8 @@ export default function () {
       } else {
         // alert(`受信したnumと保持しているnumが違う${JSON.stringify(latestMyAnswerNumber)}`)
       }
-      alert(JSON.stringify(latestPayload))
-      alert(JSON.stringify(latestMyAnswerNumber))
+      // alert(JSON.stringify(latestPayload))
+      // alert(JSON.stringify(latestMyAnswerNumber))
       if (latestPayload.new.change > 0) {
         toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました。`, {
           action: {
