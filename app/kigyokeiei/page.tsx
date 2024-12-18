@@ -8,12 +8,13 @@ import { createBrowserClient } from '@supabase/ssr'
 import { supabase } from '@/utils/supabase/supabaseClient'
 import { toast } from 'sonner'
 import {Button} from '@/components/ui/button'
+import {start,end} from './constants/constants'
+
 type ResponseType = { num: number, answer: boolean, sum: number }[]
 type Vote = { num: number, answer: "correct" | "incorrect" | "none" }
 type PublicVote = { num: number, answer: "correct" | "incorrect" | "none", count: number }
 
-const start=new Date("2025-01-27T11:00:00Z")
-const end=new Date("2025-01-27T11:30:00Z")
+
 
 export default function () {
   const [publicAnswers, setPublicAnswers] = useState<PublicVote[]>(() => {
@@ -135,4 +136,3 @@ export default function () {
 }
 
 export type { ResponseType, PublicVote, Vote }
-export {start,end}

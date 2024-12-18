@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Vote,PublicVote,ResponseType} from '../page';
 import useSWR from 'swr';
 import {Button} from '@/components/ui/button';
-import {start,end} from '../page';
+import { start, end } from '../constants/constants';
 import { toast } from 'sonner';
 
 type Props = {
