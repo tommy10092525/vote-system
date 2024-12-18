@@ -24,25 +24,15 @@ const VoteButton = (props: Props) => {
         <Button
           className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="correct" ? "bg-green-500" : "bg-green-200"} hover:bg-green-600`}
           onClick={() => {
-            if(start>now){
-              return toast("テスト開始前です",{
-                description:"テスト開始後に投票することができます",
-                action:{
-                  label:"OK",
-                  onClick:()=>{}
-                },
-              })
-            }
-            if(end<now){
-              return toast("テスト終了済みです",{
-                description:"テスト終了後は投票することができません",
-                action:{
-                  label:"OK",
-                  onClick:()=>{}
-                }
-              })
-            }
-            return async()=>{
+            // if(start>now){
+            //   alert("テスト開始前です");
+            //   return;
+            // }
+            // if(end<now){
+            //   alert("テスト終了済みです");
+            //   return;
+            // }
+            (async()=>{
               if (!isPosting && (myAnswer === "none" || myAnswer === "incorrect")) {
                 setIsPosting(true);
                 if (myAnswer === "incorrect") {
@@ -52,14 +42,9 @@ const VoteButton = (props: Props) => {
                 // 新しい投票を送信
                 await props.handleMyAnswerChange(props.num, "correct", 1);
                 setIsPosting(false);
-                return toast(`問${props.num}に「正しい」に投票しました`,{
-                  action:{
-                    label:"OK",
-                    onClick:()=>{}
-                  }
-                })
+                return toast(`問${props.num}に「正しい」に投票しました`);
               }
-            }
+            })()
           }}
         >
           {myAnswer === "correct" ? "「正しい」に投票済み" : "「正しい」に投票する"}
@@ -69,25 +54,15 @@ const VoteButton = (props: Props) => {
         <Button
           className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="incorrect" ? "bg-red-400" : "bg-red-200"} hover:bg-red-600`}
           onClick={() => {
-            if(start>now){
-              return toast("テスト開始前です",{
-                description:"テスト開始後に投票することができます",
-                action:{
-                  label:"OK",
-                  onClick:()=>{}
-                },
-              })
-            }
-            if(end<now){
-              return toast("テスト終了済みです",{
-                description:"テスト終了後は投票することができません",
-                action:{
-                  label:"OK",
-                  onClick:()=>{}
-                }
-              })
-            }
-            return async()=>{
+            // if(start>now){
+            //   alert("テスト開始後に投票することができます");
+            //   return;
+            // }
+            // if(end<now){
+            //   alert("テスト終了済みです");
+            //   return;
+            // }
+            (async()=>{
               if (!isPosting && (myAnswer === "none" || myAnswer === "correct")) {
                 setIsPosting(true);
                 if (myAnswer === "correct") {
@@ -97,14 +72,9 @@ const VoteButton = (props: Props) => {
                 // 新しい投票を送信
                 await props.handleMyAnswerChange(props.num, "incorrect", 1);
                 setIsPosting(false);
-                return toast(`問${props.num}に「誤り」に投票しました`,{
-                  action:{
-                    label:"OK",
-                    onClick:()=>{}
-                  }
-                })
+                return toast(`問${props.num}に「誤り」に投票しました`);
               }
-            }
+            })()
           }}
         >
           {myAnswer === "incorrect" ? "「誤り」に投票済み" : "「誤り」に投票する"}

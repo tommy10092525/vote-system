@@ -65,6 +65,20 @@ export default function () {
         }
         return next
       })
+      if(payload.new.change>0){
+        toast(`問${payload.new.num}への投票(${payload.new.answer?"正しい":"誤り"})を受信しました。`,{
+          action:{
+          label:"OK",
+          onClick:()=>{}
+        },
+      })}else{
+        toast(`問${payload.new.num}への投票(${payload.new.answer?"正しい":"誤り"})が削除されました。`,{
+          action:{
+          label:"OK",
+          onClick:()=>{}
+        },
+      })
+      }
     })
     
     channel.subscribe()
