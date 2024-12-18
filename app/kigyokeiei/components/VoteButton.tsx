@@ -6,7 +6,7 @@ type Props = {
   num: number,
   myAnswers:Vote[],
   publicAnswers:PublicVote[],
-  handleMyAnswerChange:(num:number,answer:"correct"|"incorrect",change:number)=>Promise<void>
+  handleMyAnswerChange:(num:number,answer:"correct"|"incorrect"|"none",change:number)=>Promise<void>
 }
 
 
@@ -56,6 +56,12 @@ const VoteButton = (props: Props) => {
         >
           {myAnswer === "incorrect" ? "「誤り」に投票済み" : "「誤り」に投票する"}
         </button>
+        {myAnswer!=="none" ?
+        <button className='w-full bg-gray-400 text-white p-1 rounded-full mt-5' onClick={()=>{
+            props.handleMyAnswerChange(props.num, "none", -1);
+        }}>自分の投票を削除する</button>
+        :<></>
+        }
       </div>
     </div>
   );

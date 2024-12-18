@@ -73,11 +73,20 @@ export default function () {
     })
 
   }, [])
-  async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect", change: number) {
-    const res = await supabase.from("votes").insert({ num: num, answer: answer === "correct", change: change })
-    let nextMyAnswers = myAnswers.map((item) => item.num === num ? { ...item, answer: answer } : item)
-    setMyAnswers(nextMyAnswers)
-    localStorage.setItem("votes", JSON.stringify(nextMyAnswers))
+  async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
+    if(answer==="none"){
+      await supabase.from("votes").insert({num:num,answer:myAnswers[num-1].answer==="correct",change:-1})
+      console.log("handleMyAnswerChange",answer);
+      let nextMyAnswers = myAnswers.map((item) => item.num === num ? { ...item, answer: answer } : item)
+      setMyAnswers(nextMyAnswers)
+      localStorage.setItem("votes", JSON.stringify(nextMyAnswers))
+    }else{
+      await supabase.from("votes").insert({num:num,answer:answer==="correct",change:change})
+      let nextMyAnswers = myAnswers.map((item) => item.num === num ? { ...item, answer: answer } : item)
+      setMyAnswers(nextMyAnswers)
+      localStorage.setItem("votes", JSON.stringify(nextMyAnswers))
+    }
+    
   }
 
 
