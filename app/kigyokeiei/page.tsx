@@ -115,12 +115,7 @@ export default function () {
       // alert(JSON.stringify(latestPayload))
       // alert(JSON.stringify(latestMyAnswerNumber))
       if (latestPayload.new.change > 0) {
-        toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました。`, {
-          action: {
-            label: "OK",
-            onClick: () => { }
-          },
-        })
+        toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました`)
       } else {
         // toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})が削除されました。`, {
         //   action: {

@@ -82,12 +82,7 @@ const VoteButton = (props: Props) => {
         {myAnswer!=="none" ?
           <Button className='w-full bg-gray-400 text-white p-1 rounded-full mt-5' onClick={()=>{
             props.handleMyAnswerChange(props.num, "none", -1);
-            return toast(`問${props.num}の投票を削除しました`,{
-              action:{
-                label:"OK",
-                onClick:()=>{}
-              }
-            })
+            return toast(`問${props.num}の投票を削除しました`)
         }}>自分の投票を削除する</Button>
         :<></>
         }
