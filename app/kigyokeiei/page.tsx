@@ -67,7 +67,7 @@ export default function () {
       schema: "public",
       table: "posts"
     }, (payload) => {
-      setMessages((prev) => [payload.new, ...prev])
+      setMessages((prev:any) => [payload.new, ...prev])
       toast(`新しい投稿「${payload.new.message}」`)
     }).subscribe()
     
@@ -230,7 +230,7 @@ export default function () {
                 <p className='text-2xl'>投稿一覧</p>
               </div>
               <div className='mt-3'>
-                {messages.map((item, index) => {
+                {messages.map((item:{id:number,message:string,created_at:Date}, index:number) => {
                   return (
                     <div className='bg-gray-100 shadow-md my-4 p-3 rounded-lg' key={index}>
                       <p className="font-extralight">{item.id}</p>
