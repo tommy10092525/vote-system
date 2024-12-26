@@ -10,6 +10,9 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { start, end } from './constants/constants'
 import { ArrowLeftRight } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {Post}  from './database.type'
+
 
 type ResponseType = { num: number, answer: boolean, sum: number }[]
 type Vote = { num: number, answer: "correct" | "incorrect" | "none" }
@@ -29,7 +32,8 @@ export default function () {
     }
     return initialArray;
   });
-
+  const [myMessage, setMyMessage] = useState<string>("")
+  const [messages, setMessages] = useState<any>([])
   const [now, setNow] = useState(new Date())
 
   // 自分の投稿によるDBの変化にはtoastを表示しないようにする。
@@ -51,15 +55,24 @@ export default function () {
       setMyAnswers(JSON.parse(savedVotes));
     }
 
-    const channel = supabase.channel("votes").on("postgres_changes", {
+    supabase.channel("votes").on("postgres_changes", {
       event: "INSERT",
       schema: "public",
       table: "votes"
     }, (payload) => {
       setLatestPayload(payload)
-    })
+    }).subscribe()
 
-    channel.subscribe()
+    supabase.channel("posts").on("postgres_changes", {
+      event: "INSERT",
+      schema: "public",
+      table: "posts"
+    }, (payload) => {
+      setMessages((prev) => [payload.new, ...prev])
+      toast(`新しい投稿「${payload.new.message}」`)
+    }).subscribe()
+    
+
     supabase.from("result").select("*").then((res) => {
       console.log("res", res)
       let nextPublicVotes: PublicVote[] = []
@@ -75,6 +88,12 @@ export default function () {
       })
       setPublicAnswers(nextPublicVotes)
     })
+
+    supabase.from("posts").select("*").then(res => {
+      console.log("res", res)
+      setMessages(res.data)
+    }
+    )
 
     setInterval(() => {
       setNow(new Date())
@@ -155,34 +174,77 @@ export default function () {
 
 
   return (
-    <div className=' p-3 w-full bg-slate-100'>
-      <div className='max-w-xl mx-auto'>
-        <p className='text-2xl'>企業経営入門投票システム</p>
-        <p>現在時刻:{now.toLocaleString()}</p>
-        <p>{end < now ? "テスト終了済み" : (start > now ? `テスト開始まであと${Math.floor((start.getTime() - now.getTime()) / 86400000)}日${Math.floor((start.getTime() - now.getTime()) / 3600000) % 24}時間${Math.floor((start.getTime() - now.getTime()) / 60000) % 60}分${Math.floor((start.getTime() - now.getTime()) / 1000) % 60}秒` : `テスト終了まであと${Math.floor((now.getTime() - end.getTime()) / 86400000)}日${Math.floor((now.getTime() - end.getTime()) / 3600000) % 24}時間${Math.floor((now.getTime() - end.getTime()) / 60000) % 60}分${Math.floor((now.getTime() - end.getTime()) / 1000) % 60}秒`)}</p>
-        {/* <p>{JSON.stringify(latestMyAnswerNumber)}</p>
-        <p>{JSON.stringify(latestPayload)}</p> */}
-        <div className="">
-          {myAnswers.map((item, index) => {
-            return <div key={index} className='bg-white p-3 rounded-lg my-3 shadow-md'>
-              <div className='bg-gray-100 p-3 rounded-lg shadow-md'>
-                <VoteButton
-                  num={index + 1}
-                  myAnswers={myAnswers}
-                  publicAnswers={publicAnswers}
-                  handleMyAnswerChange={handleMyAnswerChange}
-                />
-              </div>
-              <ResultShow
-                num={index + 1}
-                publicAnswers={publicAnswers}
-              />
-            </div>
-          })}
-
+    <div className='bg-slate-100 p-3 w-full min-h-screen font-mono'>
+      <div className='mx-auto max-w-xl'>
+        <div className='bg-white shadow-md p-3 rounded-lg'>
+          <div className='bg-gray-100 shadow-md p-3 rounded-lg'>
+            <p className='text-2xl'>企業経営入門投票システム</p>
+            <p>現在時刻:{now.toLocaleString()}</p>
+            <p>{end < now ? "テスト終了済み" : (start > now ? `テスト開始まであと${Math.floor((start.getTime() - now.getTime()) / 86400000)}日${Math.floor((start.getTime() - now.getTime()) / 3600000) % 24}時間${Math.floor((start.getTime() - now.getTime()) / 60000) % 60}分${Math.floor((start.getTime() - now.getTime()) / 1000) % 60}秒` : `テスト終了まであと${Math.floor((now.getTime() - end.getTime()) / 86400000)}日${Math.floor((now.getTime() - end.getTime()) / 3600000) % 24}時間${Math.floor((now.getTime() - end.getTime()) / 60000) % 60}分${Math.floor((now.getTime() - end.getTime()) / 1000) % 60}秒`)}</p>
+          </div>
         </div>
+        <Tabs defaultValue="vote" className="mt-3 rounded-lg w-full">
+          <TabsList className='bg-gray-200 w-full'>
+            <TabsTrigger value="vote" className='w-full'>投票する</TabsTrigger>
+            <TabsTrigger value="post" className='w-full'>投稿を見る</TabsTrigger>
+          </TabsList>
+          <TabsContent value="vote">
+            <div className="">
+              {myAnswers.map((item, index) => {
+                return <div key={index} className='bg-white shadow-md my-3 p-3 rounded-lg'>
+                  <div className='bg-gray-100 shadow-md p-3 rounded-lg'>
+                    <VoteButton
+                      num={index + 1}
+                      myAnswers={myAnswers}
+                      publicAnswers={publicAnswers}
+                      handleMyAnswerChange={handleMyAnswerChange}
+                    />
+                  </div>
+                  <ResultShow
+                    num={index + 1}
+                    publicAnswers={publicAnswers}
+                  />
+                </div>
+              })}
+            </div>
+          </TabsContent>
+          <TabsContent value="post">
+            <div className='bg-white shadow-md my-3 p-3 rounded-lg'>
+              <div className='bg-gray-100 shadow-md p-3 rounded-lg'>
+                <p className='text-2xl'>投稿する</p>
+                <div className='mt-3'>
+                  <textarea className='hover:bg-blue-200 shadow p-3 rounded-lg w-full transition-all' onChange={
+                    (e) => {
+                      setMyMessage(e.target.value);
+                    }
+                  } value={myMessage}/>
+                  <div className='mt-3'>
+                    <Button className='bg-blue-500 hover:bg-blue-700 shadow w-full text-white' onClick={async () => {
+                      await supabase.from("posts").insert({ message: myMessage,emphasis:false })
+                      console.log("myMessage", myMessage)
+                      setMyMessage("")
+                    }}>投稿する</Button>
+                  </div>
+                </div>
+              </div>
+              <div className='bg-gray-100 shadow-md mt-3 p-3 rounded-lg'>
+                <p className='text-2xl'>投稿一覧</p>
+              </div>
+              <div className='mt-3'>
+                {messages.map((item, index) => {
+                  return (
+                    <div className='bg-gray-100 shadow-md my-4 p-3 rounded-lg' key={index}>
+                      <p className="font-extralight">{item.id}</p>
+                      <p className='text-lg'>{item.message}</p>
+                      <p>{new Date(item.created_at).toLocaleString()}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
-
     </div>
   )
 }
