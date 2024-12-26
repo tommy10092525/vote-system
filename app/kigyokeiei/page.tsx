@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { start, end } from './constants/constants'
 import { ArrowLeftRight } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {Post}  from './database.type'
 
 
 type ResponseType = { num: number, answer: boolean, sum: number }[]
