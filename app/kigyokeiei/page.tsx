@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import { start, end } from './constants/constants'
 import { ArrowLeftRight } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { GetServerSideProps } from 'next'
 
 
 type ResponseType = { num: number, answer: boolean, sum: number }[]
@@ -102,8 +103,6 @@ export default function () {
 
   useEffect(() => {
     if (!!latestPayload) {
-      // alert(`payload:${JSON.stringify(latestPayload.new)}`)
-      // setLatestPayload(latestPayload.new)
       setPublicAnswers(prev => {
         let next = structuredClone(prev)
         for (let i of next) {
@@ -116,33 +115,19 @@ export default function () {
       })
       console.log(latestMyAnswerNumber)
       if (latestPayload.new.change > 0 && latestPayload.new.num === latestMyAnswerNumber.addition) {
-        // 受信した投票のnumと直近の自分の投票のnumが等しい場合toastを表示せず、additionを0にする。
-        // alert("受信した投票のnumと直近の自分の投票のnumが等しい場合toastを表示せず、additionを0にする。")
         setLatestMyAnswerNumber({ addition: 0, deletion: latestMyAnswerNumber.deletion })
         setLatestPayload(null)
         return;
       } else if (latestPayload.new.change < 0 && latestPayload.new.num === latestMyAnswerNumber.deletion) {
-        // 受信した投票の削除のnumと直近の自分の投票の削除のnumが等しい場合toastを表示せず、deletionを0にする。
-        // alert("受信した投票の削除のnumと直近の自分の投票の削除のnumが等しい場合toastを表示せず、deletionを0にする。")
         setLatestMyAnswerNumber({ addition: latestMyAnswerNumber.addition, deletion: 0 })
         setLatestPayload(null)
         return;
       } else {
-        // alert(`受信したnumと保持しているnumが違う${JSON.stringify(latestMyAnswerNumber)}`)
       }
-      // alert(JSON.stringify(latestPayload))
-      // alert(JSON.stringify(latestMyAnswerNumber))
       if (latestPayload.new.change > 0) {
         toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました`)
       } else {
-        // toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})が削除されました。`, {
-        //   action: {
-        //     label: "OK",
-        //     onClick: () => { }
-        //   },
-        // })
       }
-      // alert(`latestMyAnswerNumber:${JSON.stringify(latestMyAnswerNumber)}`)
     }
   }, [latestMyAnswerNumber, latestPayload]);
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
@@ -156,13 +141,9 @@ export default function () {
       await supabase.from("votes").insert({ num: num, answer: myAnswers[num - 1].answer === "correct", change: -1 })
     } else {
       if (change > 0) {
-        // alert(`${num}の投票を追加します${JSON.stringify(latestMyAnswerNumber)}`)
         setLatestMyAnswerNumber({ addition: num, deletion: latestMyAnswerNumber.deletion })
-        // alert(`${num}の投票を追加しました${JSON.stringify(latestMyAnswerNumber)}`)
       } else {
-        // alert(`${num}の投票を削除します${JSON.stringify(latestMyAnswerNumber)}`)
         setLatestMyAnswerNumber({ addition: latestMyAnswerNumber.addition, deletion: num })
-        // alert(`${num}の投票を削除しました${JSON.stringify(latestMyAnswerNumber)}`)
       }
       await supabase.from("votes").insert({ num: num, answer: answer === "correct", change: change })
       let nextMyAnswers = myAnswers.map((item) => item.num === num ? { ...item, answer: answer } : item)
@@ -220,6 +201,10 @@ export default function () {
                   <div className='mt-3'>
                     <Button className='bg-blue-500 hover:bg-blue-700 shadow w-full text-white' onClick={async () => {
                       await supabase.from("posts").insert({ message: myMessage,emphasis:false })
+                      fetch("/kigyokeiei/api/post/", {
+                        method: "POST",
+                        body: JSON.stringify({ message: myMessage }),
+                      })
                       console.log("myMessage", myMessage)
                       setMyMessage("")
                     }}>投稿する</Button>
@@ -247,5 +232,6 @@ export default function () {
     </div>
   )
 }
+
 
 export type { ResponseType, PublicVote, Vote }

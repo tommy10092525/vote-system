@@ -20,18 +20,10 @@ const VoteButton = (props: Props) => {
   return (
     <div className={`w-full my-2 pl-2 ${myAnswer==="none" ? "" : "border-blue-500 border-l-4"}`}>
       <p className='text-2xl'>{`問${String(props.num)}${isPosting ? " 送信中..." : ""}`}</p>
-      <div className='w-full p-1'>
+      <div className='p-1 w-full'>
         <Button
           className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="correct" ? "bg-green-500" : "bg-green-200"} hover:bg-green-600`}
           onClick={() => {
-            // if(start>now){
-            //   alert("テスト開始前です");
-            //   return;
-            // }
-            // if(end<now){
-            //   alert("テスト終了済みです");
-            //   return;
-            // }
             (async()=>{
               if (!isPosting && (myAnswer === "none" || myAnswer === "incorrect")) {
                 setIsPosting(true);
@@ -50,18 +42,10 @@ const VoteButton = (props: Props) => {
           {myAnswer === "correct" ? "「正しい」に投票済み" : "「正しい」に投票する"}
         </Button>
       </div>
-      <div className='w-full p-1'>
+      <div className='p-1 w-full'>
         <Button
           className={`w-full shadow p-1 rounded-md text-black ${myAnswer==="incorrect" ? "bg-red-400" : "bg-red-200"} hover:bg-red-600`}
           onClick={() => {
-            // if(start>now){
-            //   alert("テスト開始後に投票することができます");
-            //   return;
-            // }
-            // if(end<now){
-            //   alert("テスト終了済みです");
-            //   return;
-            // }
             (async()=>{
               if (!isPosting && (myAnswer === "none" || myAnswer === "correct")) {
                 setIsPosting(true);
@@ -80,7 +64,7 @@ const VoteButton = (props: Props) => {
           {myAnswer === "incorrect" ? "「誤り」に投票済み" : "「誤り」に投票する"}
         </Button>
         {myAnswer!=="none" ?
-          <Button className='w-full bg-gray-400 text-white p-1 rounded-full mt-5' onClick={()=>{
+          <Button className='bg-gray-400 mt-5 p-1 rounded-full w-full text-white' onClick={()=>{
             props.handleMyAnswerChange(props.num, "none", -1);
             return toast(`問${props.num}の投票を削除しました`)
         }}>自分の投票を削除する</Button>
