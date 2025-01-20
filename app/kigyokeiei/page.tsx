@@ -131,6 +131,10 @@ export default function () {
   //   }
   // }, [latestMyAnswerNumber, latestPayload]);
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
+    fetch("/kigyokeiei/api/post/", {
+      method: "POST",
+      body: JSON.stringify({ problemId:num}),
+    })
     if (answer === "none") {
       console.log("handleMyAnswerChange", answer);
       let nextMyAnswers = myAnswers.map((item) => item.num === num ? { ...item, answer: answer } : item)
