@@ -8,7 +8,7 @@ import { createBrowserClient } from '@supabase/ssr'
 import { supabase } from '@/utils/supabase/supabaseClient'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { start, end ,email} from './constants/constants'
+import { start, end, email } from './constants/constants'
 import { ArrowLeftRight } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { GetServerSideProps } from 'next'
@@ -33,7 +33,7 @@ export default function () {
     return initialArray;
   });
   const [myMessage, setMyMessage] = useState<string>("")
-  const [messages, setMessages] = useState<any>([])
+  const [messages, setMessages] = useState<any[]>([])
   const [now, setNow] = useState(new Date())
 
   // 自分の投稿によるDBの変化にはtoastを表示しないようにする。
@@ -68,10 +68,10 @@ export default function () {
       schema: "public",
       table: "posts"
     }, (payload) => {
-      setMessages((prev:any) => prev.push(payload.new))
+      setMessages((prev: any) => {prev.push(payload.new); return prev})
       toast(`新しい投稿「${payload.new.message}」`)
     }).subscribe()
-    
+
 
     supabase.from("result").select("*").then((res) => {
       console.log("res", res)
@@ -91,7 +91,9 @@ export default function () {
 
     supabase.from("posts").select("*").then(res => {
       console.log("res", res)
-      setMessages(res.data)
+      if (res.data) {
+        setMessages(res.data)
+      }
     }
     )
 
@@ -133,7 +135,7 @@ export default function () {
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
     fetch("/kigyokeiei/api/post/", {
       method: "POST",
-      body: JSON.stringify({ problemId:num}),
+      body: JSON.stringify({ problemId: num }),
     })
     if (answer === "none") {
       console.log("handleMyAnswerChange", answer);
@@ -156,6 +158,7 @@ export default function () {
     }
   }
 
+  console.log(JSON.stringify(messages))
 
   return (
     <div className='bg-slate-100 p-3 w-full min-h-screen font-mono'>
@@ -202,10 +205,10 @@ export default function () {
                     (e) => {
                       setMyMessage(e.target.value);
                     }
-                  } value={myMessage}/>
+                  } value={myMessage} />
                   <div className='mt-3'>
                     <Button className='bg-blue-500 hover:bg-blue-700 shadow w-full text-white' onClick={async () => {
-                      await supabase.from("posts").insert({ message: myMessage,emphasis:false })
+                      await supabase.from("posts").insert({ message: myMessage, emphasis: false })
                       fetch("/kigyokeiei/api/post/", {
                         method: "POST",
                         body: JSON.stringify({ message: myMessage }),
@@ -220,7 +223,7 @@ export default function () {
                 <p className='text-2xl'>投稿一覧</p>
               </div>
               <div className='mt-3'>
-                {messages.toReversed().map((item:{id:number,message:string,created_at:Date}, index:number) => {
+                {messages ? messages.toReversed().map((item: { id: number, message: string, created_at: Date }, index: number) => {
                   return (
                     <div className='bg-gray-100 shadow-md my-4 p-3 rounded-lg' key={index}>
                       <p className="font-extralight">{item.id}</p>
@@ -228,7 +231,7 @@ export default function () {
                       <p>{new Date(item.created_at).toLocaleString()}</p>
                     </div>
                   )
-                })}
+                }):null}
               </div>
             </div>
           </TabsContent>
