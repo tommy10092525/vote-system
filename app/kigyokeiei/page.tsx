@@ -166,8 +166,8 @@ export default function () {
         </div>
         <Tabs defaultValue="vote" className="mt-3 rounded-lg w-full">
           <TabsList className='bg-gray-200 w-full'>
-            <TabsTrigger value="vote" className='w-full'>投票する</TabsTrigger>
-            <TabsTrigger value="post" className='w-full'>投稿を見る</TabsTrigger>
+            <TabsTrigger value="vote" className='w-full'>投票</TabsTrigger>
+            <TabsTrigger value="post" className='w-full'>投稿</TabsTrigger>
           </TabsList>
           <TabsContent value="vote">
             <div className="">
