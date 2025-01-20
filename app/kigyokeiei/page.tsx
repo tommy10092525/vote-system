@@ -101,35 +101,35 @@ export default function () {
 
   }, [])
 
-  // useEffect(() => {
-  //   if (!!latestPayload) {
-  //     setPublicAnswers(prev => {
-  //       let next = structuredClone(prev)
-  //       for (let i of next) {
-  //         if (i.num === latestPayload.new.num && (i.answer === "correct") === latestPayload.new.answer) {
-  //           i.count += latestPayload.new.change
-  //           break;
-  //         }
-  //       }
-  //       return next
-  //     })
-  //     console.log(latestMyAnswerNumber)
-  //     if (latestPayload.new.change > 0 && latestPayload.new.num === latestMyAnswerNumber.addition) {
-  //       setLatestMyAnswerNumber({ addition: 0, deletion: latestMyAnswerNumber.deletion })
-  //       setLatestPayload(null)
-  //       return;
-  //     } else if (latestPayload.new.change < 0 && latestPayload.new.num === latestMyAnswerNumber.deletion) {
-  //       setLatestMyAnswerNumber({ addition: latestMyAnswerNumber.addition, deletion: 0 })
-  //       setLatestPayload(null)
-  //       return;
-  //     } else {
-  //     }
-  //     if (latestPayload.new.change > 0) {
-  //       toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました`)
-  //     } else {
-  //     }
-  //   }
-  // }, [latestMyAnswerNumber, latestPayload]);
+  useEffect(() => {
+    if (!!latestPayload) {
+      setPublicAnswers(prev => {
+        let next = structuredClone(prev)
+        for (let i of next) {
+          if (i.num === latestPayload.new.num && (i.answer === "correct") === latestPayload.new.answer) {
+            i.count += latestPayload.new.change
+            break;
+          }
+        }
+        return next
+      })
+      console.log(latestMyAnswerNumber)
+      if (latestPayload.new.change > 0 && latestPayload.new.num === latestMyAnswerNumber.addition) {
+        setLatestMyAnswerNumber({ addition: 0, deletion: latestMyAnswerNumber.deletion })
+        setLatestPayload(null)
+        return;
+      } else if (latestPayload.new.change < 0 && latestPayload.new.num === latestMyAnswerNumber.deletion) {
+        setLatestMyAnswerNumber({ addition: latestMyAnswerNumber.addition, deletion: 0 })
+        setLatestPayload(null)
+        return;
+      } else {
+      }
+      if (latestPayload.new.change > 0) {
+        // toast(`問${latestPayload.new.num}への投票(${latestPayload.new.answer ? "正しい" : "誤り"})を受信しました`)
+      } else {
+      }
+    }
+  }, [latestMyAnswerNumber, latestPayload]);
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
     fetch("/kigyokeiei/api/post/", {
       method: "POST",
