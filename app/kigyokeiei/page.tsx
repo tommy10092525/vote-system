@@ -220,7 +220,7 @@ export default function () {
                 <p className='text-2xl'>投稿一覧</p>
               </div>
               <div className='mt-3'>
-                {messages.reverse().map((item:{id:number,message:string,created_at:Date}, index:number) => {
+                {messages.toReversed().map((item:{id:number,message:string,created_at:Date}, index:number) => {
                   return (
                     <div className='bg-gray-100 shadow-md my-4 p-3 rounded-lg' key={index}>
                       <p className="font-extralight">{item.id}</p>
