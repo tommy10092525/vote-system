@@ -68,7 +68,7 @@ export default function () {
       schema: "public",
       table: "posts"
     }, (payload) => {
-      setMessages((prev:any) => [payload.new, ...prev])
+      setMessages((prev:any) => prev.push(payload.new))
       toast(`新しい投稿「${payload.new.message}」`)
     }).subscribe()
     
