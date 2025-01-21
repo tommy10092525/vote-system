@@ -97,6 +97,8 @@ export default function () {
     }
     )
 
+    fetch("/kigyokeiei/api/post/", {method: "POST", body: JSON.stringify({ access: true })})
+
     setInterval(() => {
       setNow(new Date())
     }, 1000)

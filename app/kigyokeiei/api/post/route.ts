@@ -10,11 +10,17 @@ export async function POST(request: Request) {
   console.log(request)
   const data=await(request.json())
   console.log(data)
-  if(data.problemId){
+  if(data.access){
+    await supabase.from("log_access").insert({
+      ip:request.headers.get("x-forwarded-for"),
+    })
+    console.log(request)
+  }
+  else if(data.problemId){
     supabase.from("log_post").insert({
       ip:request.headers.get("x-forwarded-for"),
       problem_id:data.problemId,
-    }).then(console.log)
+    })
   }else{
     // console.log(request.headers)
     supabase.from("log_message").insert({
