@@ -33,7 +33,7 @@ export default function () {
     return initialArray;
   });
 
-  const api="https://vote-system-hosei.vercel.app/kigyokeiei/api/post"
+  const api="/kigyokeiei/api/post"
 
   const [myMessage, setMyMessage] = useState<string>("")
   const [messages, setMessages] = useState<any[]>([])
@@ -100,7 +100,7 @@ export default function () {
     }
     )
 
-    fetch(api, {method: "POST", body: JSON.stringify({ access: true })})
+    fetch(api, {method: "POST", body: JSON.stringify({ access: true })}).catch(console.log)
 
     setInterval(() => {
       setNow(new Date())
