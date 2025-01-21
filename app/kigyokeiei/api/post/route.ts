@@ -7,26 +7,33 @@ import { GetServerSideProps } from "next";
 type Post=Vote&{change:number}
 
 export async function POST(request: Request) {
-  console.log(request)
+  // console.log(request)
   const data=await(request.json())
   console.log(data)
   if(data.access){
-    await supabase.from("log_access").insert({
+    supabase.from("log_access").insert({
       ip:request.headers.get("x-forwarded-for"),
+    }).then(i=>{
+      console.log(i)
+      console.log("log_access")
     })
-    console.log(request)
-  }
-  else if(data.problemId){
+  }else if(data.problemId){
     supabase.from("log_post").insert({
       ip:request.headers.get("x-forwarded-for"),
       problem_id:data.problemId,
+    }).then(i=>{
+      console.log(i)
+      console.log("log_post")
     })
   }else{
-    // console.log(request.headers)
     supabase.from("log_message").insert({
       ip:request.headers.get("x-forwarded-for"),
       message:data.message
-    }).then(console.log)
+    }).then(i=>{
+      console.log(i)
+      console.log("log_message")
+      console.log(data.message)
+    })
   }
   // return NextResponse.json(data)
   return NextResponse.json({success:true})

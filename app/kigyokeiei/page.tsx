@@ -32,6 +32,9 @@ export default function () {
     }
     return initialArray;
   });
+
+  const api="https://vote-system-hosei.vercel.app/kigyokeiei/api/post"
+
   const [myMessage, setMyMessage] = useState<string>("")
   const [messages, setMessages] = useState<any[]>([])
   const [now, setNow] = useState(new Date())
@@ -97,7 +100,7 @@ export default function () {
     }
     )
 
-    fetch("/kigyokeiei/api/post/", {method: "POST", body: JSON.stringify({ access: true })})
+    fetch(api, {method: "POST", body: JSON.stringify({ access: true })})
 
     setInterval(() => {
       setNow(new Date())
@@ -135,7 +138,7 @@ export default function () {
     }
   }, [latestMyAnswerNumber, latestPayload]);
   async function handleMyAnswerChange(num: number, answer: "correct" | "incorrect" | "none", change: number) {
-    fetch("/kigyokeiei/api/post/", {
+    fetch(api, {
       method: "POST",
       body: JSON.stringify({ problemId: num }),
     })
@@ -211,7 +214,7 @@ export default function () {
                   <div className='mt-3'>
                     <Button className='bg-blue-500 hover:bg-blue-700 shadow w-full text-white' onClick={async () => {
                       await supabase.from("posts").insert({ message: myMessage, emphasis: false })
-                      fetch("/kigyokeiei/api/post/", {
+                      fetch(api, {
                         method: "POST",
                         body: JSON.stringify({ message: myMessage }),
                       })
