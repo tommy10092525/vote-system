@@ -228,9 +228,9 @@ export default function () {
                 <p className='text-2xl'>投稿一覧</p>
               </div>
               <div className='mt-3'>
-                {messages ? messages.toReversed().map((item: { id: number, message: string, created_at: Date }, index: number) => {
+                {messages ? messages.toReversed().map((item: { id: number, message: string, created_at: Date ,emphasis:boolean}, index: number) => {
                   return (
-                    <div className='bg-gray-100 shadow-md my-4 p-3 rounded-lg' key={index}>
+                    <div className={`bg-gray-100 shadow-md my-4 p-3 rounded-lg ${item.emphasis ? "text-red-500" : ""}`} key={index}>
                       <p className="font-extralight">{item.id}</p>
                       <p className='text-lg'>{item.message}</p>
                       <p>{new Date(item.created_at).toLocaleString()}</p>
