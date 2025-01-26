@@ -172,7 +172,7 @@ export default function () {
           <div className='bg-gray-100 shadow-md p-3 rounded-lg'>
             <p className='text-2xl'>企業経営入門投票システム</p>
             <p>現在時刻:{now.toLocaleString()}</p>
-            <p>{end < now ? "テスト終了済み" : (start > now ? `テスト開始まであと${Math.floor((start.getTime() - now.getTime()) / 86400000)}日${Math.floor((start.getTime() - now.getTime()) / 3600000) % 24}時間${Math.floor((start.getTime() - now.getTime()) / 60000) % 60}分${Math.floor((start.getTime() - now.getTime()) / 1000) % 60}秒` : `テスト終了まであと${Math.floor((now.getTime() - end.getTime()) / 86400000)}日${Math.floor((now.getTime() - end.getTime()) / 3600000) % 24}時間${Math.floor((now.getTime() - end.getTime()) / 60000) % 60}分${Math.floor((now.getTime() - end.getTime()) / 1000) % 60}秒`)}</p>
+            {/* <p>{end < now ? "テスト終了済み" : (start > now ? `テスト開始まであと${Math.floor((start.getTime() - now.getTime()) / 86400000)}日${Math.floor((start.getTime() - now.getTime()) / 3600000) % 24}時間${Math.floor((start.getTime() - now.getTime()) / 60000) % 60}分${Math.floor((start.getTime() - now.getTime()) / 1000) % 60}秒` : `テスト終了まであと${Math.floor((now.getTime() - end.getTime()) / 86400000)}日${Math.floor((now.getTime() - end.getTime()) / 3600000) % 24}時間${Math.floor((now.getTime() - end.getTime()) / 60000) % 60}分${Math.floor((now.getTime() - end.getTime()) / 1000) % 60}秒`)}</p> */}
             <p>連絡先:{email}</p>
           </div>
         </div>
