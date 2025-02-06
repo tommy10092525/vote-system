@@ -163,8 +163,6 @@ export default function () {
     }
   }
 
-  console.log(JSON.stringify(messages))
-
   return (
     <div className='bg-slate-100 p-3 w-full min-h-screen font-mono'>
       <div className='mx-auto max-w-xl'>
